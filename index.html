@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildFolio Login</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="main">
+
+    <!-- LEFT SECTION -->
+    <div class="left">
+        <h1><span id="typing"></span><span class="cursor">|</span></h1>
+        <p>
+            Create your portfolio your way with BuildFolio.<br>
+            Generate portfolios using AI or design them yourself<br>
+            using modern templates.
+        </p>
+
+        <h3>Features</h3>
+        <ul class="features">
+            <li>AI-powered portfolio builder</li>
+            <li>Modern ready-to-use templates</li>
+            <li>Easy customization</li>
+            <li>Showcase skills and projects professionally</li>
+        </ul>
+    </div>
+
+    <!-- RIGHT SECTION -->
+    <div class="right">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form>
+                <div class="input-group">
+                    <input type="text" name="username" required>
+                    <label>Username</label>
+                </div>
+
+                <div class="input-group password-group">
+                    <input type="password" name="password" id="password" required>
+                    <label>Password</label>
+                    <span class="toggle-pass" onclick="togglePassword()">👁️</span>
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <span>Sign Up</span></p>
+        </div>
+    </div>
+
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>
