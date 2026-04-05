@@ -1,0 +1,36 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+header {
+    text-align: center;
+    padding: 50px;
+    background-color: #1e1e2f;
+    color: white;
+}
+
+section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.project {
+    margin-bottom: 20px;
+}
+
+a {
+    color: #1e1e2f;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}

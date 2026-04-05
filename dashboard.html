@@ -10,8 +10,6 @@
 
 <style>
 
-/* BODY */
-
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
@@ -25,13 +23,13 @@ color:#E2E8F0;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:12px 30px;
+padding:15px 40px;
 background:#1E293B;
-box-shadow:0 2px 8px rgba(0,0,0,0.3);
+box-shadow:0 2px 10px rgba(0,0,0,0.3);
 }
 
 .logo{
-font-family:'Space Grotesk',sans-serif;
+font-family:'Space Grotesk';
 font-size:22px;
 color:#38BDF8;
 font-weight:600;
@@ -39,39 +37,18 @@ font-weight:600;
 
 .nav-links{
 display:flex;
-gap:20px;
-list-style:none;
-margin:0;
-padding:0;
+gap:25px;
 }
 
 .nav-links a{
 text-decoration:none;
 color:#E2E8F0;
 font-weight:500;
-padding:6px 10px;
-border-radius:6px;
-transition:0.3s;
 }
-
-.nav-links a:hover{
-background:#38BDF8;
-color:#020617;
-}
-
-/* LOGOUT */
 
 .logout{
-background:#EF4444;
-color:white;
-padding:6px 14px;
-border-radius:8px;
-text-decoration:none;
-margin-left:10px;
-}
-
-.logout:hover{
-background:#F87171;
+color:#F87171;
+font-weight:600;
 }
 
 /* HEADER */
@@ -98,19 +75,27 @@ padding:20px;
 
 .option-card{
 background:#1E293B;
-padding:30px;
+padding:30px 25px;
 width:260px;
 border-radius:15px;
 text-align:center;
 cursor:pointer;
 transition:0.3s;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
+box-shadow:0 10px 20px rgba(0,0,0,0.3);
 }
 
 .option-card:hover{
-transform:translateY(-5px);
+transform:translateY(-6px);
 background:linear-gradient(135deg,#38BDF8,#0EA5E9);
 color:#020617;
+}
+
+.option-card .icon{
+font-size:40px;
+}
+
+.option-card h2{
+margin:15px 0;
 }
 
 .option-card button{
@@ -118,19 +103,9 @@ padding:10px 18px;
 border:none;
 border-radius:8px;
 background:#38BDF8;
+color:#020617;
 font-weight:600;
 cursor:pointer;
-}
-
-.option-card button:hover{
-background:#0EA5E9;
-}
-
-/* ICON */
-
-.icon{
-font-size:40px;
-margin-bottom:10px;
 }
 
 /* CHATBOT */
@@ -142,7 +117,7 @@ right:20px;
 width:270px;
 border-radius:10px;
 overflow:hidden;
-box-shadow:0 4px 12px rgba(0,0,0,0.3);
+box-shadow:0 4px 15px rgba(0,0,0,0.3);
 }
 
 .chatbot-header{
@@ -162,7 +137,7 @@ background:#0F172A;
 
 .chatbot-messages{
 flex:1;
-padding:8px;
+padding:10px;
 overflow-y:auto;
 font-size:13px;
 }
@@ -188,10 +163,8 @@ padding:8px 10px;
 cursor:pointer;
 }
 
-/* MESSAGE STYLE */
-
 .chatbot-message{
-margin-bottom:6px;
+margin-bottom:8px;
 }
 
 .user{
@@ -205,32 +178,33 @@ color:#CBD5F5;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <!-- NAVBAR -->
 
-<nav class="navbar">
+<div class="navbar">
 
 <div class="logo">BuildFolio</div>
 
-<ul class="nav-links">
-<li><a href="#">Home</a></li>
-<li><a href="#">My Portfolio</a></li>
-<li><a href="#">AI Wizard</a></li>
-</ul>
-
+<div class="nav-links">
+<a href="#">Home</a>
+<a href="#">My Portfolio</a>
+<a href="#">AI Wizard</a>
 <a href="#" class="logout">Logout</a>
+</div>
 
-</nav>
+</div>
 
 <!-- HEADER -->
 
 <header>
 
 <h1>Welcome User 👋</h1>
-<p>Choose how you want to create your portfolio</p>
+
+<p>Choose how you want to build your portfolio</p>
 
 </header>
 
@@ -244,7 +218,7 @@ color:#CBD5F5;
 
 <h2>Create Manually</h2>
 
-<p>Build your portfolio by adding sections yourself.</p>
+<p>Design your portfolio yourself with sections and projects.</p>
 
 <button>Create</button>
 
@@ -255,15 +229,16 @@ color:#CBD5F5;
 
 <div class="icon">🤖</div>
 
-<h2>AI-Powered Portfolio</h2>
+<h2>AI Portfolio Builder</h2>
 
-<p>Let AI generate your portfolio automatically.</p>
+<p>Let AI generate a portfolio automatically.</p>
 
 <button>Use AI</button>
 
 </div>
 
 </div>
+
 
 <!-- CHATBOT -->
 
@@ -275,91 +250,83 @@ BuildFolio Assistant
 
 <div class="chatbot-body">
 
-<div class="chatbot-messages" id="chatbot-messages"></div>
+<div id="chatbot-messages" class="chatbot-messages"></div>
 
 <div class="chatbot-input">
-<input id="chatbot-input" placeholder="Type here...">
-<button onclick="sendPortfolioMessage()">Send</button>
-</div>
+
+<input id="chatbot-input" type="text" placeholder="Ask about portfolio...">
+
+<button onclick="sendMessage()">Send</button>
 
 </div>
 
 </div>
+
+</div>
+
 
 <script>
 
-/* PORTFOLIO BUTTONS */
-
-function manualPortfolio(){
-alert("Manual Portfolio Editor will open.");
-}
-
-function aiPortfolio(){
-alert("AI Portfolio Wizard will open.");
-}
-
-/* CHATBOT */
-
-let portfolioStep=0;
-let firstBotSoundPlayed=false;
+let step=0
+let soundPlayed=false
 
 function toggleChat(){
 
-const body=document.querySelector(".chatbot-body");
+const body=document.querySelector(".chatbot-body")
 
-body.style.display=body.style.display==="flex"?"none":"flex";
+body.style.display = body.style.display==="flex" ? "none":"flex"
 
 }
 
-function sendPortfolioMessage(){
+function sendMessage(){
 
-const input=document.getElementById("chatbot-input");
+const input=document.getElementById("chatbot-input")
 
-const msg=input.value.trim();
+const msg=input.value.trim()
 
-if(!msg) return;
+if(!msg) return
 
-const box=document.getElementById("chatbot-messages");
+const box=document.getElementById("chatbot-messages")
 
-const user=document.createElement("div");
+const user=document.createElement("div")
 
-user.className="chatbot-message user";
+user.className="chatbot-message user"
 
-user.textContent=msg;
+user.textContent=msg
 
-box.appendChild(user);
+box.appendChild(user)
 
-input.value="";
+input.value=""
 
-box.scrollTop=box.scrollHeight;
+box.scrollTop=box.scrollHeight
 
 setTimeout(()=>{
 
-let reply="";
+let reply=""
 
-if(portfolioStep===0){
+if(step===0){
 
-reply="Hi! I'm your BuildFolio assistant. Do you want to create your portfolio manually or using AI?";
+reply="Hi! I'm the BuildFolio assistant. Do you want to create your portfolio manually or using AI?"
 
 }
 
-else if(portfolioStep===1){
+else if(step===1){
 
 if(msg.toLowerCase().includes("manual")){
 
-reply="Great! You can add sections like About, Skills, Projects and Contact.";
+reply="Great choice! Click the 'Create Manually' card above to start building your portfolio."
 
 }
 
 else if(msg.toLowerCase().includes("ai")){
 
-reply="Awesome! AI will generate your portfolio. Tell me your skills.";
+reply="Awesome! Click the 'AI Portfolio Builder' card and I will help generate your portfolio."
 
 }
 
 else{
 
-reply="Please type Manual or AI.";
+reply="Please type Manual or AI so I can guide you."
 
 }
 
@@ -367,57 +334,67 @@ reply="Please type Manual or AI.";
 
 else{
 
-reply="You can also click the options above to start.";
+reply="You can also explore the options on the dashboard."
 
 }
 
-typeBotMessage(reply);
+typeBot(reply)
 
-portfolioStep++;
+step++
 
-},500);
-
-}
-
-/* BOT TYPING EFFECT */
-
-function typeBotMessage(text){
-
-const box=document.getElementById("chatbot-messages");
-
-const bot=document.createElement("div");
-
-bot.className="chatbot-message bot";
-
-box.appendChild(bot);
-
-if(!firstBotSoundPlayed){
-
-const audio=new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
-
-audio.play();
-
-firstBotSoundPlayed=true;
+},500)
 
 }
 
-let i=0;
+function typeBot(text){
+
+const box=document.getElementById("chatbot-messages")
+
+const bot=document.createElement("div")
+
+bot.className="chatbot-message bot"
+
+box.appendChild(bot)
+
+if(!soundPlayed){
+
+const audio=new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3")
+
+audio.play()
+
+soundPlayed=true
+
+}
+
+let i=0
 
 let typing=setInterval(()=>{
 
-bot.textContent+=text.charAt(i);
+bot.textContent += text.charAt(i)
 
-i++;
+i++
 
-box.scrollTop=box.scrollHeight;
+box.scrollTop=box.scrollHeight
 
 if(i>=text.length){
 
-clearInterval(typing);
+clearInterval(typing)
 
 }
 
-},30);
+},25)
+
+}
+
+function manualPortfolio(){
+
+alert("Manual portfolio builder page will open")
+
+}
+
+function aiPortfolio(){
+
+alert("AI portfolio generator will open")
 
 }
 

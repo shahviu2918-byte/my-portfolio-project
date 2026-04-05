@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildFolio Manual Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* BODY */
+body, html {
+    margin:0;
+    padding:0;
+    font-family:'Poppins', sans-serif;
+    background:#0F172A;
+    color:#E2E8F0;
+}
+
+/* MAIN LAYOUT */
+.main {
+    display:flex;
+    height:100vh;
+}
+
+/* LEFT PANEL - INPUTS */
+.left {
+    flex:1;
+    padding:40px;
+    background: linear-gradient(135deg,#1E293B,#0F172A);
+    overflow-y:auto;
+}
+
+.left h1 {
+    font-family:'Space Grotesk',sans-serif;
+    font-size:28px;
+    color:#38BDF8;
+    margin-bottom:20px;
+}
+
+.input-group {
+    margin-bottom:20px;
+}
+
+.input-group label {
+    display:block;
+    margin-bottom:5px;
+}
+
+.input-group input, .input-group select, .input-group textarea {
+    width:100%;
+    padding:8px;
+    background:#0F172A;
+    border:1px solid #38BDF8;
+    border-radius:6px;
+    color:#E2E8F0;
+    outline:none;
+}
+
+/* PREVIEW PANEL */
+.right {
+    flex:1;
+    padding:30px;
+    background:#020617;
+    overflow-y:auto;
+}
+
+.preview-box {
+    background: #1E293B;
+    padding:20px;
+    border-radius:15px;
+}
+
+.preview-box h2 {
+    margin:10px 0;
+}
+
+.preview-box p {
+    margin:8px 0;
+}
+
+.preview-img {
+    max-width:150px;
+    border-radius:10px;
+    margin:10px 0;
+}
+
+/* BUTTON */
+button {
+    padding:10px 15px;
+    background:#38BDF8;
+    border:none;
+    border-radius:6px;
+    color:#020617;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover {
+    background:#0EA5E9;
+}
+
+hr {
+    border:1px solid #38BDF8;
+    margin:20px 0;
+}
+
+/* SECTION HEADINGS */
+.section-title {
+    color:#38BDF8;
+    margin-bottom:10px;
+    font-size:18px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="main">
+
+    <!-- LEFT PANEL: USER INPUT -->
+    <div class="left">
+        <h1>Build Your Portfolio</h1>
+
+        <!-- Name -->
+        <div class="input-group">
+            <label>Name:</label>
+            <input type="text" id="nameInput" placeholder="Your name">
+        </div>
+
+        <!-- Bio -->
+        <div class="input-group">
+            <label>Bio:</label>
+            <textarea id="bioInput" rows="3" placeholder="Write a short bio"></textarea>
+        </div>
+
+        <!-- Profile Photo -->
+        <div class="input-group">
+            <label>Upload Photo:</label>
+            <input type="file" id="photoInput" accept="image/*">
+        </div>
+
+        <!-- Font Family -->
+        <div class="input-group">
+            <label>Font Family:</label>
+            <select id="fontSelect">
+                <option value="Poppins">Poppins</option>
+                <option value="Space Grotesk">Space Grotesk</option>
+                <option value="Arial">Arial</option>
+                <option value="Verdana">Verdana</option>
+            </select>
+        </div>
+
+        <!-- Font Size -->
+        <div class="input-group">
+            <label>Font Size (px):</label>
+            <input type="number" id="fontSizeInput" value="16" min="10" max="36">
+        </div>
+
+        <!-- Portfolio Background -->
+        <div class="input-group">
+            <label>Portfolio Background Color:</label>
+            <input type="color" id="bgColorInput" value="#1E293B">
+        </div>
+
+        <hr>
+
+        <!-- Creative Question 1 -->
+        <div class="input-group">
+            <label>Personal Motto / Tagline:</label>
+            <input type="text" id="mottoInput" placeholder="Your tagline or motto">
+        </div>
+
+        <!-- Creative Question 2 -->
+        <div class="input-group">
+            <label>Favorite Quote:</label>
+            <input type="text" id="quoteInput" placeholder="Your favorite quote">
+        </div>
+
+        <!-- Creative Question 3 -->
+        <div class="input-group">
+            <label>Hobbies / Interests:</label>
+            <input type="text" id="hobbyInput" placeholder="Your hobbies or interests">
+        </div>
+
+        <button onclick="updatePreview()">Preview Portfolio</button>
+    </div>
+
+    <!-- RIGHT PANEL: LIVE PREVIEW -->
+    <div class="right">
+        <h1>Live Preview</h1>
+        <div class="preview-box" id="previewBox">
+            <h2 id="previewName">Your Name</h2>
+            <p id="previewBio">Your bio will appear here.</p>
+            <img id="previewPhoto" class="preview-img" src="" alt="" style="display:none;">
+            <p id="previewMotto"></p>
+            <p id="previewQuote"></p>
+            <p id="previewHobby"></p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// Update preview function
+function updatePreview() {
+    const name = document.getElementById("nameInput").value;
+    const bio = document.getElementById("bioInput").value;
+    const motto = document.getElementById("mottoInput").value;
+    const quote = document.getElementById("quoteInput").value;
+    const hobby = document.getElementById("hobbyInput").value;
+    const font = document.getElementById("fontSelect").value;
+    const fontSize = document.getElementById("fontSizeInput").value;
+    const bgColor = document.getElementById("bgColorInput").value;
+
+    const previewBox = document.getElementById("previewBox");
+    previewBox.style.background = bgColor;
+    previewBox.style.fontFamily = font;
+    previewBox.style.fontSize = fontSize + "px";
+
+    document.getElementById("previewName").textContent = name || "Your Name";
+    document.getElementById("previewBio").textContent = bio || "Your bio will appear here.";
+    document.getElementById("previewMotto").textContent = motto ? "Motto: " + motto : "";
+    document.getElementById("previewQuote").textContent = quote ? "Quote: " + quote : "";
+    document.getElementById("previewHobby").textContent = hobby ? "Hobbies: " + hobby : "";
+
+    // Handle photo preview
+    const photoInput = document.getElementById("photoInput");
+    const previewPhoto = document.getElementById("previewPhoto");
+    if(photoInput.files && photoInput.files[0]){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            previewPhoto.src = e.target.result;
+            previewPhoto.style.display = "block";
+        }
+        reader.readAsDataURL(photoInput.files[0]);
+    } else {
+        previewPhoto.src = "";
+        previewPhoto.style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>

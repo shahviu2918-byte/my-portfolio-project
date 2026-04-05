@@ -1,41 +1,81 @@
-// Typing effect
-const text = ["Welcome to BuildFolio", "Create your Portfolio", "Showcase your Skills"];
+// login.js
+
+// ----- Typing Animation -----
+const text = "Welcome to BuildFolio"; // Text to type
+const typingElement = document.getElementById("typing");
+const cursor = document.querySelector(".cursor");
+
 let index = 0;
-let charIndex = 0;
-const typingSpan = document.getElementById("typing");
 
 function type() {
-    if (charIndex < text[index].length) {
-        typingSpan.textContent += text[index][charIndex];
-        charIndex++;
-        setTimeout(type, 100);
+    if (index < text.length) {
+        typingElement.textContent += text.charAt(index);
+        index++;
+        setTimeout(type, 150); // typing speed
     } else {
-        setTimeout(erase, 1500);
+        blinkCursor(); // start cursor blinking after typing finishes
     }
 }
 
-function erase() {
-    if (charIndex > 0) {
-        typingSpan.textContent = text[index].substring(0, charIndex - 1);
-        charIndex--;
-        setTimeout(erase, 50);
-    } else {
-        index = (index + 1) % text.length;
-        setTimeout(type, 500);
-    }
+function blinkCursor() {
+    setInterval(() => {
+        cursor.style.visibility = cursor.style.visibility === "visible" ? "hidden" : "visible";
+    }, 500);
 }
 
-document.addEventListener("DOMContentLoaded", type);
+window.addEventListener("DOMContentLoaded", type); // ensures DOM is loaded
 
-// Toggle password visibility
+// ----- Toggle password visibility -----
 function togglePassword() {
-    const passwordInput = document.getElementById("password");
-    const toggleIcon = document.querySelector(".toggle-pass");
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        toggleIcon.textContent = "🙈";
-    } else {
-        passwordInput.type = "password";
-        toggleIcon.textContent = "👁️";
-    }
+    const pass = document.getElementById("password");
+    pass.type = pass.type === "password" ? "text" : "password";
 }
+
+// ----- LocalStorage helpers -----
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
+// ----- Handle Login -----
+document.querySelector("form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const username = this.username.value.trim();
+    const password = this.password.value.trim();
+    const users = getUsers();
+
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if(user) {
+        alert("Login successful!");
+        window.location.href = "dashboard.html"; // redirect after login
+    } else {
+        alert("Invalid username or password!");
+    }
+});
+
+// ----- Handle Sign Up click -----
+const signUpSpan = document.querySelector("p span");
+signUpSpan.style.cursor = "pointer";
+
+signUpSpan.addEventListener("click", function() {
+    const username = prompt("Enter new username:");
+    if(!username) return alert("Username is required!");
+
+    const password = prompt("Enter new password:");
+    if(!password) return alert("Password is required!");
+
+    const users = getUsers();
+
+    if(users.find(u => u.username === username)) {
+        return alert("Username already exists!");
+    }
+
+    users.push({ username, password });
+    saveUsers(users);
+    alert("Sign Up successful! You can now login.");
+});
