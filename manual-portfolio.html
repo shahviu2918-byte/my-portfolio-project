@@ -3,240 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BuildFolio Manual Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+<title>Manual Portfolio Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* BODY */
-body, html {
-    margin:0;
-    padding:0;
-    font-family:'Poppins', sans-serif;
-    background:#0F172A;
-    color:#E2E8F0;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#020617;color:white;}
 
-/* MAIN LAYOUT */
-.main {
-    display:flex;
-    height:100vh;
+/* NAVBAR */
+.navbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:70px;
+background:#020617;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 60px;
+border-bottom:1px solid #1e293b;
+z-index:1000;
 }
+.logo{font-size:22px;font-weight:600;color:#38BDF8;}
+.nav-links{display:flex;gap:30px;}
+.nav-links a{color:white;text-decoration:none;font-size:15px;cursor:pointer;}
+.nav-links a:hover{color:#38BDF8;}
 
-/* LEFT PANEL - INPUTS */
-.left {
-    flex:1;
-    padding:40px;
-    background: linear-gradient(135deg,#1E293B,#0F172A);
-    overflow-y:auto;
+/* MAIN */
+.container{margin-top:100px;display:flex;gap:40px;padding:30px;}
+
+/* FORM */
+.form-section{
+width:40%;
+background:#1E293B;
+padding:20px;
+border-radius:10px;
 }
-
-.left h1 {
-    font-family:'Space Grotesk',sans-serif;
-    font-size:28px;
-    color:#38BDF8;
-    margin-bottom:20px;
+input, textarea, select{
+width:100%;
+padding:10px;
+margin-top:6px;
+margin-bottom:12px;
+background:#020617;
+color:white;
+border:1px solid #38BDF8;
+border-radius:6px;
 }
-
-.input-group {
-    margin-bottom:20px;
+textarea{height:80px;resize:vertical;}
+button{
+width:100%;
+padding:12px;
+background:#38BDF8;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+margin-top:10px;
 }
+button:hover{background:#0EA5E9;}
 
-.input-group label {
-    display:block;
-    margin-bottom:5px;
+/* PREVIEW */
+.preview-section{
+width:60%;
+background:#1E293B;
+padding:20px;
+border-radius:10px;
+display:flex;
+justify-content:center;
 }
-
-.input-group input, .input-group select, .input-group textarea {
-    width:100%;
-    padding:8px;
-    background:#0F172A;
-    border:1px solid #38BDF8;
-    border-radius:6px;
-    color:#E2E8F0;
-    outline:none;
+#previewBox{
+padding:20px;
+border-radius:10px;
+background:#1E293B;
+min-height:400px;
+text-align:center; /* center content */
 }
-
-/* PREVIEW PANEL */
-.right {
-    flex:1;
-    padding:30px;
-    background:#020617;
-    overflow-y:auto;
+#previewBox img{
+width:100px; /* smaller photo */
+height:100px;
+border-radius:50%;
+display:block;
+margin:0 auto 15px auto; /* center horizontally + spacing below */
 }
-
-.preview-box {
-    background: #1E293B;
-    padding:20px;
-    border-radius:15px;
-}
-
-.preview-box h2 {
-    margin:10px 0;
-}
-
-.preview-box p {
-    margin:8px 0;
-}
-
-.preview-img {
-    max-width:150px;
-    border-radius:10px;
-    margin:10px 0;
-}
-
-/* BUTTON */
-button {
-    padding:10px 15px;
-    background:#38BDF8;
-    border:none;
-    border-radius:6px;
-    color:#020617;
-    font-weight:600;
-    cursor:pointer;
-    margin-top:10px;
-}
-
-button:hover {
-    background:#0EA5E9;
-}
-
-hr {
-    border:1px solid #38BDF8;
-    margin:20px 0;
-}
-
-/* SECTION HEADINGS */
-.section-title {
-    color:#38BDF8;
-    margin-bottom:10px;
-    font-size:18px;
-}
-
 </style>
 </head>
 <body>
 
-<div class="main">
-
-    <!-- LEFT PANEL: USER INPUT -->
-    <div class="left">
-        <h1>Build Your Portfolio</h1>
-
-        <!-- Name -->
-        <div class="input-group">
-            <label>Name:</label>
-            <input type="text" id="nameInput" placeholder="Your name">
-        </div>
-
-        <!-- Bio -->
-        <div class="input-group">
-            <label>Bio:</label>
-            <textarea id="bioInput" rows="3" placeholder="Write a short bio"></textarea>
-        </div>
-
-        <!-- Profile Photo -->
-        <div class="input-group">
-            <label>Upload Photo:</label>
-            <input type="file" id="photoInput" accept="image/*">
-        </div>
-
-        <!-- Font Family -->
-        <div class="input-group">
-            <label>Font Family:</label>
-            <select id="fontSelect">
-                <option value="Poppins">Poppins</option>
-                <option value="Space Grotesk">Space Grotesk</option>
-                <option value="Arial">Arial</option>
-                <option value="Verdana">Verdana</option>
-            </select>
-        </div>
-
-        <!-- Font Size -->
-        <div class="input-group">
-            <label>Font Size (px):</label>
-            <input type="number" id="fontSizeInput" value="16" min="10" max="36">
-        </div>
-
-        <!-- Portfolio Background -->
-        <div class="input-group">
-            <label>Portfolio Background Color:</label>
-            <input type="color" id="bgColorInput" value="#1E293B">
-        </div>
-
-        <hr>
-
-        <!-- Creative Question 1 -->
-        <div class="input-group">
-            <label>Personal Motto / Tagline:</label>
-            <input type="text" id="mottoInput" placeholder="Your tagline or motto">
-        </div>
-
-        <!-- Creative Question 2 -->
-        <div class="input-group">
-            <label>Favorite Quote:</label>
-            <input type="text" id="quoteInput" placeholder="Your favorite quote">
-        </div>
-
-        <!-- Creative Question 3 -->
-        <div class="input-group">
-            <label>Hobbies / Interests:</label>
-            <input type="text" id="hobbyInput" placeholder="Your hobbies or interests">
-        </div>
-
-        <button onclick="updatePreview()">Preview Portfolio</button>
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">BuildFolio</div>
+    <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="ai-portfolio.html">AI Portfolio</a>
+        <a href="manual-portfolio.html">Create Manual</a>
+        <a onclick="logout()">Logout</a>
     </div>
+</div>
 
-    <!-- RIGHT PANEL: LIVE PREVIEW -->
-    <div class="right">
-        <h1>Live Preview</h1>
-        <div class="preview-box" id="previewBox">
-            <h2 id="previewName">Your Name</h2>
-            <p id="previewBio">Your bio will appear here.</p>
-            <img id="previewPhoto" class="preview-img" src="" alt="" style="display:none;">
-            <p id="previewMotto"></p>
-            <p id="previewQuote"></p>
-            <p id="previewHobby"></p>
-        </div>
-    </div>
+<h1 style="text-align:center;margin-top:90px;color:#38BDF8;">Manual Portfolio Builder</h1>
+
+<div class="container">
+
+<div class="form-section">
+<label>Full Name</label>
+<textarea id="name" placeholder="Your full name"></textarea>
+
+<label>Email</label>
+<textarea id="email" placeholder="Your email"></textarea>
+
+<label>Tagline</label>
+<textarea id="tagline" placeholder="Your tagline"></textarea>
+
+<label>About Me</label>
+<textarea id="about" placeholder="Write about yourself"></textarea>
+
+<label>Skills</label>
+<textarea id="skills" placeholder="Example: HTML, CSS, JavaScript"></textarea>
+
+<label>Projects</label>
+<textarea id="projects" placeholder="Describe your projects"></textarea>
+
+<label>Achievements</label>
+<textarea id="achievements" placeholder="Your achievements"></textarea>
+
+<label>Hobbies</label>
+<textarea id="hobbies" placeholder="Your hobbies"></textarea>
+
+<label>Favorite Quote</label>
+<textarea id="quote" placeholder="Your favorite quote"></textarea>
+
+<label>GitHub</label>
+<textarea id="github" placeholder="Your GitHub profile link"></textarea>
+
+<label>LinkedIn</label>
+<textarea id="linkedin" placeholder="Your LinkedIn profile link"></textarea>
+
+<label>Profile Photo</label>
+<input type="file" id="photo">
+
+<label>Font Family</label>
+<select id="fontFamily">
+<option>Arial</option>
+<option>Verdana</option>
+<option>Georgia</option>
+<option>Courier New</option>
+</select>
+
+<label>Font Size</label>
+<input type="number" id="fontSize" value="16">
+
+<label>Font Color</label>
+<input type="color" id="fontColor" value="#ffffff">
+
+<label>Background Color</label>
+<input type="color" id="bgColor" value="#1E293B">
+
+<button onclick="downloadPortfolio()">Download Portfolio</button>
+</div>
+
+<div class="preview-section">
+<h2>Portfolio Preview</h2>
+<div id="previewBox">
+<!-- Initially empty -->
+</div>
+</div>
 
 </div>
 
 <script>
-// Update preview function
-function updatePreview() {
-    const name = document.getElementById("nameInput").value;
-    const bio = document.getElementById("bioInput").value;
-    const motto = document.getElementById("mottoInput").value;
-    const quote = document.getElementById("quoteInput").value;
-    const hobby = document.getElementById("hobbyInput").value;
-    const font = document.getElementById("fontSelect").value;
-    const fontSize = document.getElementById("fontSizeInput").value;
-    const bgColor = document.getElementById("bgColorInput").value;
+function logout(){
+    alert("Logged out successfully");
+    window.location.href="login.html";
+}
 
-    const previewBox = document.getElementById("previewBox");
-    previewBox.style.background = bgColor;
-    previewBox.style.fontFamily = font;
-    previewBox.style.fontSize = fontSize + "px";
+// Update preview dynamically
+const inputs = document.querySelectorAll("input,textarea,select");
+inputs.forEach(input => {
+    input.addEventListener("input", updatePreview);
+});
 
-    document.getElementById("previewName").textContent = name || "Your Name";
-    document.getElementById("previewBio").textContent = bio || "Your bio will appear here.";
-    document.getElementById("previewMotto").textContent = motto ? "Motto: " + motto : "";
-    document.getElementById("previewQuote").textContent = quote ? "Quote: " + quote : "";
-    document.getElementById("previewHobby").textContent = hobby ? "Hobbies: " + hobby : "";
+function updatePreview(){
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const tagline = document.getElementById("tagline").value;
+    const about = document.getElementById("about").value;
+    const skills = document.getElementById("skills").value;
+    const projects = document.getElementById("projects").value;
+    const achievements = document.getElementById("achievements").value;
+    const hobbies = document.getElementById("hobbies").value;
+    const quote = document.getElementById("quote").value;
+    const github = document.getElementById("github").value;
+    const linkedin = document.getElementById("linkedin").value;
 
-    // Handle photo preview
-    const photoInput = document.getElementById("photoInput");
-    const previewPhoto = document.getElementById("previewPhoto");
-    if(photoInput.files && photoInput.files[0]){
+    const fontFamily = document.getElementById("fontFamily").value;
+    const fontSize = document.getElementById("fontSize").value+"px";
+    const fontColor = document.getElementById("fontColor").value;
+    const bgColor = document.getElementById("bgColor").value;
+
+    const preview = document.getElementById("previewBox");
+    preview.style.fontFamily = fontFamily;
+    preview.style.fontSize = fontSize;
+    preview.style.color = fontColor;
+    preview.style.background = bgColor;
+
+    // Add photo first
+    preview.innerHTML = `
+        <img id="profileImg" src="" width="100" height="100">
+        <h2>${name}</h2>
+        <h4>${tagline}</h4>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>About:</b> ${about}</p>
+        <p><b>Skills:</b> ${skills}</p>
+        <p><b>Projects:</b> ${projects}</p>
+        <p><b>Achievements:</b> ${achievements}</p>
+        <p><b>Hobbies:</b> ${hobbies}</p>
+        <p><b>Favorite Quote:</b> "${quote}"</p>
+        <p><b>GitHub:</b> ${github}</p>
+        <p><b>LinkedIn:</b> ${linkedin}</p>
+    `;
+
+    const photo = document.getElementById("photo").files[0];
+    if(photo){
         const reader = new FileReader();
         reader.onload = function(e){
-            previewPhoto.src = e.target.result;
-            previewPhoto.style.display = "block";
+            document.getElementById("profileImg").src = e.target.result;
         }
-        reader.readAsDataURL(photoInput.files[0]);
-    } else {
-        previewPhoto.src = "";
-        previewPhoto.style.display = "none";
+        reader.readAsDataURL(photo);
     }
+}
+
+// Download as centered HTML file
+function downloadPortfolio(){
+    const content=document.getElementById("previewBox").innerHTML;
+    const html=`<html>
+<head><title>My Portfolio</title></head>
+<body style="display:flex; justify-content:center; align-items:center; flex-direction:column; min-height:100vh; margin:0; background:${document.getElementById("bgColor").value}; color:${document.getElementById("fontColor").value}; font-family:${document.getElementById("fontFamily").value}; font-size:${document.getElementById("fontSize").value}px; text-align:center;">
+${content}
+</body>
+</html>`;
+    const blob=new Blob([html],{type:"text/html"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="portfolio.html";
+    a.click();
 }
 </script>
 

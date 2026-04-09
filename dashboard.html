@@ -1,20 +1,20 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>BuildFolio Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
-
 <style>
 
 body{
 margin:0;
-font-family:'Poppins',sans-serif;
+font-family:Arial;
 background:linear-gradient(135deg,#0F172A,#1E293B);
-color:#E2E8F0;
+color:white;
 }
 
 /* NAVBAR */
@@ -25,14 +25,12 @@ justify-content:space-between;
 align-items:center;
 padding:15px 40px;
 background:#1E293B;
-box-shadow:0 2px 10px rgba(0,0,0,0.3);
 }
 
 .logo{
-font-family:'Space Grotesk';
 font-size:22px;
+font-weight:bold;
 color:#38BDF8;
-font-weight:600;
 }
 
 .nav-links{
@@ -42,13 +40,13 @@ gap:25px;
 
 .nav-links a{
 text-decoration:none;
-color:#E2E8F0;
+color:white;
 font-weight:500;
 }
 
 .logout{
 color:#F87171;
-font-weight:600;
+cursor:pointer;
 }
 
 /* HEADER */
@@ -59,11 +57,10 @@ padding:40px 20px;
 }
 
 header h1{
-font-family:'Space Grotesk';
 color:#38BDF8;
 }
 
-/* OPTIONS */
+/* CARDS */
 
 .options{
 display:flex;
@@ -75,106 +72,25 @@ padding:20px;
 
 .option-card{
 background:#1E293B;
-padding:30px 25px;
+padding:30px;
 width:260px;
 border-radius:15px;
 text-align:center;
-cursor:pointer;
-transition:0.3s;
-box-shadow:0 10px 20px rgba(0,0,0,0.3);
-}
-
-.option-card:hover{
-transform:translateY(-6px);
-background:linear-gradient(135deg,#38BDF8,#0EA5E9);
-color:#020617;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
 .option-card .icon{
 font-size:40px;
 }
 
-.option-card h2{
-margin:15px 0;
-}
-
 .option-card button{
-padding:10px 18px;
+margin-top:15px;
+padding:10px 20px;
 border:none;
 border-radius:8px;
 background:#38BDF8;
-color:#020617;
-font-weight:600;
 cursor:pointer;
-}
-
-/* CHATBOT */
-
-.chatbot-container{
-position:fixed;
-bottom:20px;
-right:20px;
-width:270px;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 4px 15px rgba(0,0,0,0.3);
-}
-
-.chatbot-header{
-background:#38BDF8;
-color:#020617;
-padding:10px;
-font-weight:600;
-cursor:pointer;
-}
-
-.chatbot-body{
-display:none;
-flex-direction:column;
-height:250px;
-background:#0F172A;
-}
-
-.chatbot-messages{
-flex:1;
-padding:10px;
-overflow-y:auto;
-font-size:13px;
-}
-
-.chatbot-input{
-display:flex;
-border-top:1px solid #38BDF8;
-}
-
-.chatbot-input input{
-flex:1;
-padding:8px;
-border:none;
-outline:none;
-background:#020617;
-color:white;
-}
-
-.chatbot-input button{
-background:#38BDF8;
-border:none;
-padding:8px 10px;
-cursor:pointer;
-}
-
-.chatbot-message{
-margin-bottom:8px;
-}
-
-.user{
-text-align:right;
-color:#38BDF8;
-}
-
-.bot{
-text-align:left;
-color:#CBD5F5;
+font-weight:bold;
 }
 
 </style>
@@ -190,29 +106,31 @@ color:#CBD5F5;
 <div class="logo">BuildFolio</div>
 
 <div class="nav-links">
-<a href="#">Home</a>
-<a href="#">My Portfolio</a>
-<a href="#">AI Wizard</a>
-<a href="#" class="logout">Logout</a>
+<a href="dashboard.html">Home</a>
+<a href="manual-portfolio.html">Manual</a>
+<a href="ai-portfolio.html">AI Portfolio</a>
+<a class="logout" onclick="logout()">Logout</a>
 </div>
 
 </div>
+
 
 <!-- HEADER -->
 
 <header>
 
-<h1>Welcome User 👋</h1>
+<h1>Welcome to BuildFolio 👋</h1>
 
 <p>Choose how you want to build your portfolio</p>
 
 </header>
 
+
 <!-- OPTIONS -->
 
 <div class="options">
 
-<div class="option-card" onclick="manualPortfolio()">
+<div class="option-card">
 
 <div class="icon">🖌️</div>
 
@@ -220,12 +138,12 @@ color:#CBD5F5;
 
 <p>Design your portfolio yourself with sections and projects.</p>
 
-<button>Create</button>
+<button onclick="openManual()">Create</button>
 
 </div>
 
 
-<div class="option-card" onclick="aiPortfolio()">
+<div class="option-card">
 
 <div class="icon">🤖</div>
 
@@ -233,32 +151,7 @@ color:#CBD5F5;
 
 <p>Let AI generate a portfolio automatically.</p>
 
-<button>Use AI</button>
-
-</div>
-
-</div>
-
-
-<!-- CHATBOT -->
-
-<div class="chatbot-container">
-
-<div class="chatbot-header" onclick="toggleChat()">
-BuildFolio Assistant
-</div>
-
-<div class="chatbot-body">
-
-<div id="chatbot-messages" class="chatbot-messages"></div>
-
-<div class="chatbot-input">
-
-<input id="chatbot-input" type="text" placeholder="Ask about portfolio...">
-
-<button onclick="sendMessage()">Send</button>
-
-</div>
+<button onclick="openAI()">Use AI</button>
 
 </div>
 
@@ -267,138 +160,29 @@ BuildFolio Assistant
 
 <script>
 
-let step=0
-let soundPlayed=false
+function openManual(){
 
-function toggleChat(){
-
-const body=document.querySelector(".chatbot-body")
-
-body.style.display = body.style.display==="flex" ? "none":"flex"
+window.location.href="manual-portfolio.html"
 
 }
 
-function sendMessage(){
+function openAI(){
 
-const input=document.getElementById("chatbot-input")
-
-const msg=input.value.trim()
-
-if(!msg) return
-
-const box=document.getElementById("chatbot-messages")
-
-const user=document.createElement("div")
-
-user.className="chatbot-message user"
-
-user.textContent=msg
-
-box.appendChild(user)
-
-input.value=""
-
-box.scrollTop=box.scrollHeight
-
-setTimeout(()=>{
-
-let reply=""
-
-if(step===0){
-
-reply="Hi! I'm the BuildFolio assistant. Do you want to create your portfolio manually or using AI?"
+window.location.href="ai-portfolio.html"
 
 }
 
-else if(step===1){
+function logout(){
 
-if(msg.toLowerCase().includes("manual")){
+alert("You have been logged out")
 
-reply="Great choice! Click the 'Create Manually' card above to start building your portfolio."
-
-}
-
-else if(msg.toLowerCase().includes("ai")){
-
-reply="Awesome! Click the 'AI Portfolio Builder' card and I will help generate your portfolio."
-
-}
-
-else{
-
-reply="Please type Manual or AI so I can guide you."
-
-}
-
-}
-
-else{
-
-reply="You can also explore the options on the dashboard."
-
-}
-
-typeBot(reply)
-
-step++
-
-},500)
-
-}
-
-function typeBot(text){
-
-const box=document.getElementById("chatbot-messages")
-
-const bot=document.createElement("div")
-
-bot.className="chatbot-message bot"
-
-box.appendChild(bot)
-
-if(!soundPlayed){
-
-const audio=new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3")
-
-audio.play()
-
-soundPlayed=true
-
-}
-
-let i=0
-
-let typing=setInterval(()=>{
-
-bot.textContent += text.charAt(i)
-
-i++
-
-box.scrollTop=box.scrollHeight
-
-if(i>=text.length){
-
-clearInterval(typing)
-
-}
-
-},25)
-
-}
-
-function manualPortfolio(){
-
-alert("Manual portfolio builder page will open")
-
-}
-
-function aiPortfolio(){
-
-alert("AI portfolio generator will open")
+window.location.href="login.html"
 
 }
 
 </script>
 
 </body>
+
 </html>
+

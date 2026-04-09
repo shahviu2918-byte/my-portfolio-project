@@ -31,13 +31,24 @@ function togglePassword() {
     pass.type = pass.type === "password" ? "text" : "password";
 }
 
+// ----- LocalStorage helpers -----
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
 // ----- Handle Login -----
 document.querySelector("form").addEventListener("submit", function(e) {
     e.preventDefault();
 
     const username = this.username.value.trim();
     const password = this.password.value.trim();
-    const user = BuildFolioDatabase.findUser(username, password);
+    const users = getUsers();
+
+    const user = users.find(u => u.username === username && u.password === password);
 
     if(user) {
         alert("Login successful!");
@@ -58,12 +69,13 @@ signUpSpan.addEventListener("click", function() {
     const password = prompt("Enter new password:");
     if(!password) return alert("Password is required!");
 
-    const users = BuildFolioDatabase.getUsers();
+    const users = getUsers();
 
     if(users.find(u => u.username === username)) {
         return alert("Username already exists!");
     }
 
-    BuildFolioDatabase.addUser({ username, password });
+    users.push({ username, password });
+    saveUsers(users);
     alert("Sign Up successful! You can now login.");
 });

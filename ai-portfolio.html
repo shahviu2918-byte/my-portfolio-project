@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BuildFolio AI Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+body{
+    background:#020617;
+    color:white;
+}
+
+/* NAVBAR */
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:70px;
+    background:#020617;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 60px;
+    border-bottom:1px solid #1e293b;
+    z-index:1000;
+}
+.logo{
+    font-size:22px;
+    font-weight:600;
+    color:#38BDF8;
+}
+.nav-links{
+    display:flex;
+    gap:30px;
+}
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    font-size:15px;
+    cursor:pointer;
+}
+.nav-links a:hover{
+    color:#38BDF8;
+}
+
+/* MAIN */
+.main{
+    margin-top:110px;
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    padding:30px;
+}
+
+/* AI BOX */
+.ai-box{
+    width:380px;
+    background:#0f172a;
+    padding:20px;
+    border-radius:10px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    border:1px solid #1e293b;
+}
+.ai-box textarea{
+    height:150px;
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    background:#020617;
+    color:white;
+    resize:none;
+}
+.ai-box input{
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    background:#020617;
+    color:white;
+}
+.ai-box button{
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    background:#38BDF8;
+    color:black;
+    font-weight:500;
+    cursor:pointer;
+}
+
+/* PREVIEW */
+.preview{
+    width:420px;
+    background:#020617;
+    padding:25px;
+    border-radius:12px;
+    border:1px solid #1e293b;
+    min-height:300px;
+    display:flex;
+    flex-direction:column;
+    align-items:center; /* center all content */
+    text-align:center;  /* center text */
+}
+.preview h2{
+    color:#38BDF8;
+    margin-bottom:15px;
+}
+.profile{
+    display:flex;
+    flex-direction:column; /* stack photo and name */
+    align-items:center;    /* center them horizontally */
+    gap:10px;
+    margin-bottom:15px;
+}
+.profile img{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+}
+.download-btn{
+    margin-top:20px;
+    padding:10px;
+    background:#38BDF8;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    display:none;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">BuildFolio</div>
+    <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="ai-portfolio.html">AI Portfolio</a>
+        <a href="manual-portfolio.html">Create Manual</a>
+        <a onclick="logout()">Logout</a>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="ai-box">
+    <h3>Create Portfolio with AI</h3>
+    <textarea id="prompt" placeholder="Example: I am a web developer skilled in HTML, CSS and JavaScript. My projects include an e-commerce website and a portfolio website."></textarea>
+    <input type="file" id="photo">
+    <button onclick="generatePortfolio()">Generate Portfolio</button>
+</div>
+
+<div class="preview" id="preview">
+    <h2>Portfolio Preview</h2>
+    <p>Your AI generated portfolio will appear here.</p>
+    <button class="download-btn" id="downloadBtn" onclick="downloadPDF()">Download PDF</button>
+</div>
+
+</div>
+
+<script>
+let imageURL="";
+
+/* PHOTO UPLOAD */
+document.getElementById("photo").addEventListener("change",function(e){
+    const file=e.target.files[0];
+    if(file){
+        imageURL=URL.createObjectURL(file);
+    }
+});
+
+/* GENERATE PORTFOLIO */
+function generatePortfolio(){
+    const prompt=document.getElementById("prompt").value;
+    const preview=document.getElementById("preview");
+
+    preview.innerHTML=`
+        <div class="profile">
+            <img src="${imageURL}" alt="Profile Photo">
+            <h2>My Portfolio</h2>
+        </div>
+        <p>${prompt}</p>
+        <button class="download-btn" id="downloadBtn" onclick="downloadPDF()">Download PDF</button>
+    `;
+
+    document.getElementById("downloadBtn").style.display="block";
+}
+
+/* DOWNLOAD PDF */
+function downloadPDF(){
+    const prompt=document.getElementById("prompt").value;
+    const cleanHTML = `
+        <div style="font-family:Poppins;padding:40px;background:white;color:black;text-align:center;">
+            <h1 style="color:black;">My Portfolio</h1>
+            <p style="color:black;line-height:1.7;font-size:16px;">
+                ${prompt}
+            </p>
+        </div>
+    `;
+    const element=document.createElement("div");
+    element.innerHTML=cleanHTML;
+    html2pdf().from(element).save("portfolio.pdf");
+}
+
+/* LOGOUT */
+function logout(){
+    alert("Logged out successfully");
+    window.location.href="login.html";
+}
+</script>
+
+</body>
+</html>
